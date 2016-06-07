@@ -1,0 +1,4 @@
+﻿$('#modalDelete').openModal();
+в консоль
+git: ant-map 
+pass: li123 (сокращенно)

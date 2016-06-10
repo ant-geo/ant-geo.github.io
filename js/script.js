@@ -76,6 +76,10 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $loc
 
       myMap.behaviors.enable('scrollZoom');
       myMap.controls.add('typeSelector');
+      myMap.controls.add('searchControl', {
+        left: 5,
+        top: 5
+      });
 
       myMap.events.add('click', function (e) {
         if ($scope.addPlacemarkCheck.check) {
@@ -95,8 +99,8 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $loc
         };
       });
 
-      myMap.controls.add('smallZoomControl', {
-        top: 5
+      myMap.controls.add('zoomControl', {
+        top: 40
       });
 
       $scope.funcInitPlacemark ();

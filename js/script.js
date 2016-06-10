@@ -124,12 +124,17 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $loc
   };
 
   $scope.send = function () {
-    Task.save($scope.sender, function() {
-      $scope.tasks = Task.query();
-      $scope.funcInitPlacemark ();
-      $scope.clearInput ();
-      $scope.addPlacemarkCheckFunc()
-    });
+    if ($scope.sender.name && $scope.sender.comment) {
+      Task.save($scope.sender, function() {
+        $scope.tasks = Task.query();
+        $scope.funcInitPlacemark ();
+        $scope.clearInput ();
+        $scope.addPlacemarkCheckFunc();
+        $('#modal1').closeModal();
+      });
+    } else {
+      Materialize.toast('Заполните все поля', 4000);
+    }
   }
 
   $scope.del = function (dele) {

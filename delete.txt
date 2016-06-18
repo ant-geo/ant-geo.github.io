@@ -1,3 +1,0 @@
-$('#modalDelete').openModal();
-в консоль
-git login ant-geo pass li123 (сокращенно)

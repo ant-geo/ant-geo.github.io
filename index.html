@@ -32,7 +32,8 @@
       </div>
       <nav>
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo right"><i class="material-icons">room</i></a>
+          <a href="" class="search-icon-custom right" ng-click="searchInit()"><i class="material-icons" >search</i></a>
+          <a href="" class="custom-input-link right"><input type="text" class="custom-input" ng-model="filterAnt" placeholder="Вид или род" value=""><i class="right material-icons" ng-click="reloadSearch()">replay</i></a>
           <!-- <a href="#modalDelete" class="modalDelete right">удалить тест</a> -->
           <ul class="left">
             <li><a href="#modal1" id="open-modal-place" onclick="Materialize.toast('Нажмите на участок где обитают муравьи', 4000)" ng-click="addPlacemarkCheckFunc()"> <i class="left material-icons">add</i> Добавить метку</a></li>

@@ -1,6 +1,6 @@
 var app = angular.module('app', ['mongolab']);
 
-app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $location, Task) {
+app.controller('homeCtrl', ['$scope', '$location', 'Task', 'filterFilter', function($scope, $location, Task, filterFilter) {
 
  $scope.tasks = Task.query();
 
@@ -33,11 +33,45 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $loc
     coordinateY: ''
   };
 
+  $scope.searchArr = [];
+
+  $scope.searchInit = function () {
+    myCollection.removeAll();
+    $scope.searchArr = filterFilter($scope.tasks, {name: $scope.filterAnt});
+    setTimeout(function () {
+      $scope.filterInitPlacemark();
+    }, 10);
+  };
+
+  $scope.reloadSearch = function () {
+    $scope.filterAnt = '';
+    $scope.searchArr = filterFilter($scope.tasks, {name: $scope.filterAnt});
+    setTimeout(function () {
+      $scope.filterInitPlacemark();
+    }, 10);
+  }
+
+  $scope.filterInitPlacemark = function () {
+    arrPlacemark = [];
+
+    for (var i = 0; i < $scope.searchArr.length; i++) {
+      arrPlacemark[i] = new ymaps.Placemark([parseFloat($scope.searchArr[i].coordinateX), parseFloat($scope.searchArr[i].coordinateY)], {
+      iconContent: $scope.searchArr[i].name.split(' ')[0].slice(0,1) + '. ' + $scope.searchArr[i].name.split(' ')[1],
+      balloonContent: '<strong>' + $scope.searchArr[i].name + '</strong> <br /> <br />' + $scope.searchArr[i].comment + ' <br /><br /> Добавлена: ' + $scope.searchArr[i].time
+    }, {
+      preset: 'twirl#blueStretchyIcon'
+    });
+
+      myCollection.add(arrPlacemark[i]);
+    };
+  };
+
   $scope.funcInitPlacemark = function () {
     var interval = setInterval(function() {
       if ($scope.tasks[0]) {
         clearInterval(interval);
         arrPlacemark = [];
+        myCollection = new ymaps.GeoObjectCollection();
 
         for (var i = 0; i < $scope.tasks.length; i++) {
           arrPlacemark[i] = new ymaps.Placemark([parseFloat($scope.tasks[i].coordinateX), parseFloat($scope.tasks[i].coordinateY)], {
@@ -47,9 +81,9 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $loc
           preset: 'twirl#blueStretchyIcon'
         });
 
-        myMap.geoObjects
-          .add(arrPlacemark[i]);
+          myCollection.add(arrPlacemark[i]);
         };
+        myMap.geoObjects.add(myCollection);
       } else {
         $scope.tasks = Task.query();
       };
@@ -67,8 +101,8 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', function($scope, $loc
 
     function init() {
       myMap = new ymaps.Map("map", {
-          center: [55.76, 37.64],
-          zoom: 10
+          center: [35.76, 5],
+          zoom: 2.5
       });
 
       // $('.wrapper-progress').css({'display': 'none'});

@@ -40,10 +40,45 @@ body, html {
   background: white;
 }
 
-@media only screen and (max-width: 992px) {
-.hide-on-med-and-down {
-    display: block !important;
+.custom-input-link {
+  padding: 0px 12px;
+  position: relative;
+
+  i {
+    position: absolute;
+    top: 2px;
+    left: 120px;
+  }
+
+  &:hover {
+    // background: none;
+  }
 }
+
+.search-icon-custom  {
+  padding-right: 12px;
+  display: inline-block;
+}
+
+.custom-input {
+  border: 1px solid white !important;
+  height: 33px !important;
+  position: relative;
+  top: 1px;
+  width: 150px !important;
+  padding-left: 5px !important;
+
+  &:focus {
+    border-bottom: 1px solid white !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .hide-on-med-and-down {
+      display: block !important;
+  }
 }
 
 @-webkit-keyframes preload-show-1 {

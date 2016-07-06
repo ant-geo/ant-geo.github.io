@@ -162,7 +162,7 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', 'filterFilter', funct
   };
 
   $scope.send = function () {
-    if ($scope.sender.name && $scope.sender.comment) {
+    if ($scope.sender.name && $scope.sender.comment && !/[а-яА-ЯёЁ]/i.test($scope.sender.name)) {
       Task.save($scope.sender, function() {
         $scope.tasks = Task.query();
         $scope.funcInitPlacemark ();
@@ -171,7 +171,7 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', 'filterFilter', funct
         $('#modal1').closeModal();
       });
     } else {
-      Materialize.toast('Заполните все поля', 4000);
+      Materialize.toast('Поля не заполнены или название вида написано кириллицей', 4000);
     }
   }
 

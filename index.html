@@ -43,28 +43,6 @@
         </div>
       </nav>
 
-      <div id="modalDelete" class="modal modal-fixed-footer">
-        <div class="modal-content">
-          <h4>Modal Header</h4>
-
-          <ul class="collection">
-            <input type="text" name="name" value="" ng-model="search" placeholder="Фильтр"/>
-            <li class="collection-item avatar" ng-repeat="task in tasks | filter:search | orderBy:'name'">
-              <b class="circle" style="text-align: center;">{{$index + 1}}</b>
-              <span class="title">name: {{task.name}}</span>
-              <p>comment: {{task.comment}} <br>
-              coordinate: {{task.coordinateX}}, {{task.coordinateY}}
-              </p>
-              <a href="#!" ng-click="del(task._id.$oid)" class="secondary-content"><i class="material-icons">location_off</i></a>
-            </li>
-          </ul>
-
-        </div>
-        <div class="modal-footer">
-          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn">Agree</a>
-        </div>
-      </div>
-
       <div id="modal1" class="modal">
           <div class="modal-content">
             <h4>Добавить метку</h4>

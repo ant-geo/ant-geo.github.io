@@ -175,14 +175,6 @@ app.controller('homeCtrl', ['$scope', '$location', 'Task', 'filterFilter', funct
     }
   }
 
-  $scope.del = function (dele) {
-    Task.remove({
-      id: dele
-    }, function() {
-      $scope.tasks = Task.query();
-    });
-  }
-
 }])
 
 angular.module('mongolab', ['ngResource']).

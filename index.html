@@ -1,123 +1,150 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html oncontextmenu="return false;">
+
+<head>
     <meta charset="utf-8">
     <title></title>
     <!-- Compiled and minified CSS -->
-     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <link rel="stylesheet" href="css/bundle.min.css" media="screen" title="no title" charset="utf-8">
-    <script src="http://code.angularjs.org/angular-1.0.0rc5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
     <script src="http://code.angularjs.org/angular-resource-1.0.0rc5.min.js"></script>
-    <script type="text/javascript" src="https://api-maps.yandex.ru/2.0/?load=package.standard,package.geoObjects&lang=ru-RU"></script>
+    <script type="text/javascript" src="https://api-maps.yandex.ru/2.0/?load=package.standard,package.geoObjects&lang=en_US"></script>
+    <script src="js/wordbook.js"></script>
+    <script src="js/angular-translate.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/yamaps.js"></script>
-  </head>
-  <body ng-app="app">
-    <div class="" ng-controller="homeCtrl" style="height: 100%;">
-      <div class="wrapper-progress valign-wrapper">
-        <div class="valign">
-          <div class="preloader loading">
-            <span class="slice"></span>
-            <span class="slice"></span>
-            <span class="slice"></span>
-            <span class="slice"></span>
-            <span class="slice"></span>
-            <span class="slice"></span>
-          </div>
+</head>
+
+<body>
+    <div class="" ng-app="app" ng-controller="homeCtrl" style="height: 100%;">
+        <div class="wrapper-progress valign-wrapper">
+            <div class="preloader-text"> ant geo loading...</div>
+            <div class="valign">
+                <div class="preloader loading">
+                    <span class="slice"></span>
+                    <span class="slice"></span>
+                    <span class="slice"></span>
+                    <span class="slice"></span>
+                    <span class="slice"></span>
+                    <span class="slice"></span>
+                </div>
+            </div>
         </div>
-      </div>
-      <nav>
-        <div class="nav-wrapper">
-          <a href="" class="search-icon-custom right" ng-click="searchInit()"><i class="material-icons" >search</i></a>
-          <a href="" class="custom-input-link right"><input type="text" class="custom-input" ng-model="filterAnt" placeholder="Вид или род" value=""><i class="right material-icons" ng-click="reloadSearch()">replay</i></a>
-          <!-- <a href="#modalDelete" class="modalDelete right">удалить тест</a> -->
-          <ul class="left">
-            <li><a href="#modal1" id="open-modal-place" onclick="Materialize.toast('Нажмите на участок где обитают муравьи', 4000)" ng-click="addPlacemarkCheckFunc()"> <i class="left material-icons">add</i> Добавить метку</a></li>
-            <li><a href="#modal2" class="modalLink"><i class="left material-icons">open_in_new</i>Полезные ссылки</a></li>
-            <li><a href="#" class="modalAbout"><i class="left material-icons">supervisor_account</i>О проекте</a></li>
-          </ul>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="" class="custom-input-link right">
+                    <input type="text" class="custom-input" ng-model="filterAnt" ng-keyup="enterKeyUp($event)" placeholder=" {{'menu.filterPlace' | translate}} " value=""><i class="material-icons">search</i></a>
+                <ul class="left">
+                    <li>
+                        <a href="#modal1" id="open-modal-place" onclick="Materialize.toast('Нажмите на участок где обитают муравьи', 4000)" ng-click="addPlacemarkCheckFunc()"> <i class="left material-icons">add</i> {{'menu.label' | translate}} </a>
+                    </li>
+                    <li><a href="#modal2" class="modalLink"><i class="left material-icons">open_in_new</i> {{'menu.link' | translate}} </a></li>
+                    <li><a href="#" class="modalAbout"><i class="left material-icons">supervisor_account</i> {{'menu.project' | translate}} </a></li>
+                    <li><a href="#" class="modalList" onclick="mapWidth();"><i class="left material-icons">view_list</i> {{'menu.list' | translate}} </a></li>
+                    <li>
+                        <div class="input-field col s12">
+                            <select class="custom-select icons" ng-change="selectedLang(selectLenguage)" ng-model="selectLenguage">
+                                <option value="ru" data-icon="img/ru.png" class="circle">{{'menu.langRu' | translate}}</option>
+                                <option value="ua" data-icon="img/ua.png" class="circle">{{'menu.langUa' | translate}}</option>
+                                <option value="en" data-icon="img/en.png" class="circle">{{'menu.langEn' | translate}}</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="addlink">
+
         </div>
-      </nav>
 
-      <div id="modal1" class="modal">
-          <div class="modal-content">
-            <h4>Добавить метку</h4>
-            <form class="" action="" method="post">
-              <div class="row">
-                <div class="input-field col s12">
-                  <input id="password" name="name" ng-model="sender.name" type="text" class="validate" required>
-                  <label for="password">Вид</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s12">
-                  <input id="password" name="comment" ng-model="sender.comment" type="text" class="validate" required>
-                  <label for="textarea1">Комментарий</label>
-                </div>
-              </div>
-              <label style="margin-left: 10px;position: relative;top: 20px;">  Координаты, время добавления метки </label>
-              <div class="row">
-                <div class="input-field col s4">
-                  <input type="text" id="inputCoorX" name="coordinateX" ng-model="sender.coordinateX" disabled class="ng-pristine ng-valid">
-                </div>
-                <div class="input-field col s4">
-                  <input type="text" id="inputCoorY" name="coordinateY" ng-model="sender.coordinateY"  disabled>
-                </div>
-                <div class="input-field col s4">
-                  <input type="text" id="time" name="time" ng-model="sender.time"  disabled>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" ng-click="send();" class="modal-action waves-effect waves-green btn-flat">Отправить</a>
-            <a href="#!" ng-click="addPlacemarkCheckFunc()" class=" modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
-          </div>
-      </div>
 
-      <div id="modalLink" class="modal">
-          <div class="modal-content">
-            <h4>Полезные сслыки</h4>
-                  <ul class="collection">
-                    <li class="collection-item dismissable"><div>antclub.org<a href="http://antclub.org"target="_blank"  class="secondary-content"><i class="material-icons">open_in_new</i></a></div></li>
-                    <li class="collection-item dismissable"><div>antclub.ru<a href="http://antclub.ru" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div></li>
-                    <li class="collection-item dismissable"><div>Group in vk.com: vk.com/antclub<a href="http://vk.com/antclub" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div></li>
-                  </ul>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
-          </div>
-      </div>
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4> {{'modal.modalAdd.head' | translate}} </h4>
+                <form class="" action="" method="post">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" name="name" ng-model="sender.name" type="text" class="validate" required>
+                            <label for="password"> {{'modal.modalAdd.kind' | translate}} </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" name="comment" ng-model="sender.comment" type="text" class="validate" required>
+                            <label for="textarea1"> {{'modal.modalAdd.comment' | translate}} </label>
+                        </div>
+                    </div>
+                    <label style="margin-left: 10px;position: relative;top: 20px;"> {{'modal.modalAdd.time' | translate}} </label>
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input type="text" id="inputCoorX" name="coordinateX" ng-model="sender.coordinateX" disabled class="ng-pristine ng-valid">
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" id="inputCoorY" name="coordinateY" ng-model="sender.coordinateY" disabled>
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" id="time" name="time" ng-model="sender.time" disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" ng-click="send();" class="modal-action waves-effect waves-green btn-flat"> {{'modal.modalAdd.sendButton' | translate}} </a>
+                <a href="#!" ng-click="addPlacemarkCheckFunc()" class=" modal-action modal-close waves-effect waves-green btn-flat"> {{'modal.modalAdd.closeButton' | translate}} </a>
+            </div>
+        </div>
 
-      <div id="modalAbout" class="modal">
-          <div class="modal-content">
-            <h4>О проекте </h4>
-            Данный сервис был создан для поиска нужных вам видов муравьев
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Закрыть</a>
-          </div>
-      </div>
+        <div id="modalAbout" class="modal">
+            <div class="modal-content">
+                <h4> {{'modal.modalLink.head' | translate}} </h4> {{'modal.modalProject.content' | translate}}
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat"> {{'modal.modalLink.closeButton' | translate}} </a>
+            </div>
+        </div>
 
-      <!-- <ul>
-        <li ng-repeat="task in tasks | filter:search | orderBy:'name'">name: {{task.name}}, comment: {{task.comment}} coordinate: {{task.coordinateX}}, {{task.coordinateY}}<a ng-click="del(task._id.$oid)">X</a></li>
-      </ul>
-      <form class="" name="myForm" method="post">
-        <label>Вид</label>
-        <input type="text" name="name" ng-model="sender.name" required>
-        <label>Комментарий</label>
-        <textarea type="text" name="comment" ng-model="sender.comment"></textarea>
-        <label>Координаты</label>
-        <input type="text" id="inputCoorX" name="coordinateX" ng-model="sender.coordinateX" required>
-        <input type="text" id="inputCoorY" name="coordinateY" ng-model="sender.coordinateY" required>
-        <button ng-click="send()" class="btn btn-primary">Save</button>
-      </form> -->
-      <!-- <input type="checkbox" name="" ng-model="addPlacemarkCheck.check" value=""> {{data.check}} -->
-      <div id="map" style="width:100%; height: 100%"></div>
+        <div id="modalLink" class="modal">
+            <div class="modal-content">
+                <h4> {{'modal.modalLink.head' | translate}} </h4>
+                <ul class="collection">
+                    <li class="collection-item dismissable">
+                        <div> {{'modal.modalLink.tap1' | translate}} <a href="http://antclub.org" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div>
+                    </li>
+                    <li class="collection-item dismissable">
+                        <div> {{'modal.modalLink.tap2' | translate}} <a href="http://antclub.ru" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div>
+                    </li>
+                    <li class="collection-item dismissable">
+                        <div> {{'modal.modalLink.tap3' | translate}} <a href="http://vk.com/antclub" target="_blank" class="secondary-content"><i class="material-icons">open_in_new</i></a></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat"> {{'modal.modalLink.closeButton' | translate}} </a>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="list-block">
+            <div class="close-list-block" onclick="closeListBlock()">
+              <i class="material-icons close-list-block" >trending_flat</i>
+            </div>
+            <ul class="collapsible" data-collapsible="accordion">
+                <li ng-repeat="task in tasks | filter:searchList">
+                    <div class="collapsible-header">
+                        <div class="id-list">{{$index + 1}}</div><i class="material-icons">room</i><a href="" class="list-link">{{task.name}}</a></div>
+                    <div class="collapsible-body">
+                        <p>{{task.comment}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-  </body>
+</body>
+
 </html>
